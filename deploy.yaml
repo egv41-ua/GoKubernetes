@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-server-deployment
+spec:
+  replicas: 2  # Aquí pedimos 2 copias para ver el balanceo
+  selector:
+    matchLabels:
+      app: go-server
+  template:
+    metadata:
+      labels:
+        app: go-server
+    spec:
+      containers:
+      - name: go-container
+        image: mi-app-go:v1   # El nombre exacto de la imagen que creaste
+        imagePullPolicy: Never # ¡CLAVE! Le dice a K8s que use la imagen de tu PC, no de internet
+        ports:
+        - containerPort: 8080 # El puerto que abrimos en el Dockerfile
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-server-service
+spec:
+  type: LoadBalancer # Esto nos da una IP para entrar (localhost)
+  selector:
+    app: go-server
+  ports:
+    - protocol: TCP
+      port: 80      # Entraremos por el puerto 80 (navegador)
+      targetPort: 8080 # Y nos redirige al 8080 de tu app

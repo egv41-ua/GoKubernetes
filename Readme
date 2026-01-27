@@ -1,0 +1,11 @@
+# Para construir la imagen
+docker build -t mi-app-go:v1 .
+
+# Preparar la pagina de despliegue
+kubectl apply -f deploy.yaml
+
+# Borrar la pagina de despliegue y recursos
+kubectl delete -f deploy.yaml 
+
+# Borrar la imagen
+docker rmi mi-app-go:v1

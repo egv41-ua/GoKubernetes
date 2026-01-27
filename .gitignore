@@ -1,0 +1,8 @@
+# Binarios y ejecutables
+servidor
+servidor.exe
+*.exe
+*.dll
+
+# Carpetas de IDE
+.vscode/
